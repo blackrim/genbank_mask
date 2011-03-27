@@ -1,3 +1,5 @@
+import datetime
+
 # -*- coding: utf-8 -*-
 # this file is released under public domain and you can use without limitations
 
@@ -59,6 +61,15 @@ auth.messages.reset_password = 'Click on the link http://'+request.env.http_host
 #########################################################################
 
 crud.settings.auth = None                      # =auth to enforce authorization on crud
+
+db.define_table('author',Field('user',db.auth_user),Field('affiliation','string'),Field('description','string'))
+
+db.define_table('reason',Field('type','string'),Field('description','string'))
+
+db.define_table('mask', Field('genbank_id','string'), Field('author_id',db.author),Field('reason',db.reason),Field('date_added','datetime'),Field('confirmed','boolean'))
+
+db.define_table('mask_comment',Field('mask_id',db.mask),Field('comment','string'),Field('author_id',db.author),Field('date_added','datetime'))
+
 
 #########################################################################
 ## Define your tables below (or better in another model file) for example

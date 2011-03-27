@@ -1,4 +1,4 @@
-timestamp: 2010-10-22T15:55:30.363621
+timestamp: 2011-03-26T22:10:22.377172
 CREATE TABLE auth_user(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     first_name CHAR(128),
@@ -9,21 +9,21 @@ CREATE TABLE auth_user(
     reset_password_key CHAR(512)
 );
 success!
-timestamp: 2010-10-22T15:55:30.476819
+timestamp: 2011-03-26T22:10:22.499007
 CREATE TABLE auth_group(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     role CHAR(512),
     description TEXT
 );
 success!
-timestamp: 2010-10-22T15:55:30.545873
+timestamp: 2011-03-26T22:10:22.575401
 CREATE TABLE auth_membership(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER REFERENCES auth_user(id) ON DELETE CASCADE,
     group_id INTEGER REFERENCES auth_group(id) ON DELETE CASCADE
 );
 success!
-timestamp: 2010-10-22T15:55:30.653035
+timestamp: 2011-03-26T22:10:22.682634
 CREATE TABLE auth_permission(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     group_id INTEGER REFERENCES auth_group(id) ON DELETE CASCADE,
@@ -32,7 +32,7 @@ CREATE TABLE auth_permission(
     record_id INTEGER
 );
 success!
-timestamp: 2010-10-22T15:55:30.740418
+timestamp: 2011-03-26T22:10:22.762628
 CREATE TABLE auth_event(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     time_stamp TIMESTAMP,
@@ -40,5 +40,39 @@ CREATE TABLE auth_event(
     user_id INTEGER REFERENCES auth_user(id) ON DELETE CASCADE,
     origin CHAR(512),
     description TEXT
+);
+success!
+timestamp: 2011-03-26T22:10:22.852701
+CREATE TABLE author(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user INTEGER REFERENCES auth_user(id) ON DELETE CASCADE,
+    affiliation CHAR(512),
+    description CHAR(512)
+);
+success!
+timestamp: 2011-03-26T22:10:22.932525
+CREATE TABLE reason(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    type CHAR(512),
+    description CHAR(512)
+);
+success!
+timestamp: 2011-03-26T22:10:22.999391
+CREATE TABLE mask(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    genbank_id CHAR(512),
+    author_id INTEGER REFERENCES author(id) ON DELETE CASCADE,
+    reason INTEGER REFERENCES reason(id) ON DELETE CASCADE,
+    date_added TIMESTAMP,
+    confirmed CHAR(1)
+);
+success!
+timestamp: 2011-03-26T22:10:23.069923
+CREATE TABLE mask_comment(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    mask_id INTEGER REFERENCES mask(id) ON DELETE CASCADE,
+    comment CHAR(512),
+    author_id INTEGER REFERENCES author(id) ON DELETE CASCADE,
+    date_added TIMESTAMP
 );
 success!
